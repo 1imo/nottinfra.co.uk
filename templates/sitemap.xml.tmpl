@@ -20,9 +20,23 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+  {{ range .Updates }}
+  <url>
+    <loc>{{ $.BaseURL }}/updates/{{ .Slug }}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  {{ end }}
   {{ range .Articles }}
   <url>
-    <loc>{{ $.BaseURL }}/article/{{ .Slug }}</loc>
+    <loc>{{ $.BaseURL }}/articles/{{ .Slug }}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  {{ end }}
+  {{ range .Signals }}
+  <url>
+    <loc>{{ $.BaseURL }}/signals/{{ .Slug }}</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

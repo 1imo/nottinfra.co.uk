@@ -76,8 +76,13 @@
             margin: 2rem 0;
         }
 
-        article > p {
+        article > p,
+        .index-content p {
             margin: 1rem 0 1.5rem;
+        }
+
+        .index-content {
+            margin-bottom: 2rem;
         }
     </style>
 </head>
@@ -100,12 +105,17 @@
     </header>
 
     <main role="main" id="main-content">
+        {{ if .IndexContent }}
+        <div class="index-content">
+            {{ .IndexContent | raw }}
+        </div>
+        {{ end }}
         {{ range .Items }}
         <article aria-labelledby="article-{{ .Slug }}-title">
             <hr aria-hidden="true">
             <h2 id="article-{{ .Slug }}-title">{{ .Title }}</h2>
             <p>{{ .Description }}</p>
-            <a href="/article/{{ .Slug }}" aria-label="Read more: {{ .Title }}">Read more</a>
+            <a href="/articles/{{ .Slug }}" aria-label="Read more: {{ .Title }}">Read more</a>
         </article>
         {{ end }}
     </main>

@@ -3,19 +3,29 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
-	"text/template"
+	texttemplate "text/template"
 	"time"
 
 	"github.com/yuin/goldmark"
 )
 
-const baseURL = "https://timohoyland.co.uk"
+const baseURL = "https://nottinfra.co.uk"
+
+func findIndexContent(items []Article, slug string) string {
+	for _, a := range items {
+		if a.Slug == slug {
+			return a.Body
+		}
+	}
+	return ""
+}
 
 type Article struct {
 	Title          string
@@ -32,18 +42,21 @@ type Article struct {
 }
 
 type IndexData struct {
-	News   []Article
-	BaseURL string
+	News         []Article
+	BaseURL      string
+	IndexContent string
 }
 
 type ListingData struct {
-	Items  []Article
-	BaseURL string
+	Items        []Article
+	BaseURL      string
+	IndexContent string
 }
 
 type ArticleData struct {
 	Article
-	BaseURL string
+	BaseURL    string
+	DetailPath string // e.g. "articles", "updates", "signals"
 }
 
 func main() {
@@ -62,29 +75,13 @@ func main() {
 		log.Fatalf("loading signals: %v", err)
 	}
 
-	tmplIndex, err := template.ParseFiles("templates/index.html.tmpl")
-	if err != nil {
-		log.Fatalf("parsing index template: %v", err)
-	}
-	tmplArticle, err := template.ParseFiles("templates/article.html.tmpl")
-	if err != nil {
-		log.Fatalf("parsing article template: %v", err)
-	}
 	tmplRobots, err := template.ParseFiles("templates/robots.txt.tmpl")
 	if err != nil {
 		log.Fatalf("parsing robots template: %v", err)
 	}
-	tmplSitemap, err := template.ParseFiles("templates/sitemap.xml.tmpl")
+	tmplSitemap, err := texttemplate.ParseFiles("templates/sitemap.xml.tmpl")
 	if err != nil {
 		log.Fatalf("parsing sitemap template: %v", err)
-	}
-	tmplArticles, err := template.ParseFiles("templates/articles.html.tmpl")
-	if err != nil {
-		log.Fatalf("parsing articles template: %v", err)
-	}
-	tmplSignals, err := template.ParseFiles("templates/signals.html.tmpl")
-	if err != nil {
-		log.Fatalf("parsing signals template: %v", err)
 	}
 
 	articleMap := make(map[string]Article)
@@ -100,13 +97,32 @@ func main() {
 		signalMap[s.Slug] = s
 	}
 
+	htmlFuncs := template.FuncMap{"raw": func(s string) template.HTML { return template.HTML(s) }}
+	var tmplIndex, tmplArticles, tmplSignals, tmplArticle *template.Template
+	tmplIndex, err = template.New("index.html.tmpl").Funcs(htmlFuncs).ParseFiles("templates/index.html.tmpl")
+	if err != nil {
+		log.Fatalf("parsing index template: %v", err)
+	}
+	tmplArticles, err = template.New("articles.html.tmpl").Funcs(htmlFuncs).ParseFiles("templates/articles.html.tmpl")
+	if err != nil {
+		log.Fatalf("parsing articles template: %v", err)
+	}
+	tmplSignals, err = template.New("signals.html.tmpl").Funcs(htmlFuncs).ParseFiles("templates/signals.html.tmpl")
+	if err != nil {
+		log.Fatalf("parsing signals template: %v", err)
+	}
+	tmplArticle, err = template.New("article.html.tmpl").Funcs(htmlFuncs).ParseFiles("templates/article.html.tmpl")
+	if err != nil {
+		log.Fatalf("parsing article template: %v", err)
+	}
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)
 			return
 		}
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		if err := tmplIndex.Execute(w, IndexData{News: newsItems, BaseURL: baseURL}); err != nil {
+		if err := tmplIndex.Execute(w, IndexData{News: newsItems, BaseURL: baseURL, IndexContent: findIndexContent(newsItems, "updates")}); err != nil {
 			log.Printf("executing index template: %v", err)
 			http.Error(w, "Internal Server Error", 500)
 		}
@@ -121,11 +137,20 @@ func main() {
 	})
 
 	http.HandleFunc("/sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/xml; charset=utf-8")
-		if err := tmplSitemap.Execute(w, struct{ BaseURL string }{BaseURL: baseURL}); err != nil {
+		var buf bytes.Buffer
+		data := struct {
+			BaseURL       string
+			Articles      []Article
+			Updates       []Article
+			Signals       []Article
+		}{BaseURL: baseURL, Articles: articles, Updates: newsItems, Signals: signals}
+		if err := tmplSitemap.Execute(&buf, data); err != nil {
 			log.Printf("executing sitemap template: %v", err)
 			http.Error(w, "Internal Server Error", 500)
+			return
 		}
+		w.Header().Set("Content-Type", "application/xml; charset=utf-8")
+		w.Write(buf.Bytes())
 	})
 
 	http.HandleFunc("/updates", func(w http.ResponseWriter, r *http.Request) {
@@ -134,7 +159,7 @@ func main() {
 
 	http.HandleFunc("/articles", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		if err := tmplArticles.Execute(w, ListingData{Items: articles, BaseURL: baseURL}); err != nil {
+		if err := tmplArticles.Execute(w, ListingData{Items: articles, BaseURL: baseURL, IndexContent: findIndexContent(articles, "articles")}); err != nil {
 			log.Printf("executing articles template: %v", err)
 			http.Error(w, "Internal Server Error", 500)
 		}
@@ -142,16 +167,16 @@ func main() {
 
 	http.HandleFunc("/signals", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		if err := tmplSignals.Execute(w, ListingData{Items: signals, BaseURL: baseURL}); err != nil {
+		if err := tmplSignals.Execute(w, ListingData{Items: signals, BaseURL: baseURL, IndexContent: findIndexContent(signals, "signals")}); err != nil {
 			log.Printf("executing signals template: %v", err)
 			http.Error(w, "Internal Server Error", 500)
 		}
 	})
 
-	http.HandleFunc("/update/", func(w http.ResponseWriter, r *http.Request) {
-		slug := strings.TrimPrefix(r.URL.Path, "/update/")
+	http.HandleFunc("/updates/", func(w http.ResponseWriter, r *http.Request) {
+		slug := strings.TrimPrefix(r.URL.Path, "/updates/")
 		if slug == "" {
-			http.Redirect(w, r, "/updates", 302)
+			http.Redirect(w, r, "/", 302)
 			return
 		}
 		up, ok := updateMap[slug]
@@ -160,14 +185,14 @@ func main() {
 			return
 		}
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		if err := tmplArticle.Execute(w, ArticleData{Article: up, BaseURL: baseURL}); err != nil {
+		if err := tmplArticle.Execute(w, ArticleData{Article: up, BaseURL: baseURL, DetailPath: "updates"}); err != nil {
 			log.Printf("executing update detail template: %v", err)
 			http.Error(w, "Internal Server Error", 500)
 		}
 	})
 
-	http.HandleFunc("/signal/", func(w http.ResponseWriter, r *http.Request) {
-		slug := strings.TrimPrefix(r.URL.Path, "/signal/")
+	http.HandleFunc("/signals/", func(w http.ResponseWriter, r *http.Request) {
+		slug := strings.TrimPrefix(r.URL.Path, "/signals/")
 		if slug == "" {
 			http.Redirect(w, r, "/signals", 302)
 			return
@@ -178,16 +203,16 @@ func main() {
 			return
 		}
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		if err := tmplArticle.Execute(w, ArticleData{Article: sig, BaseURL: baseURL}); err != nil {
+		if err := tmplArticle.Execute(w, ArticleData{Article: sig, BaseURL: baseURL, DetailPath: "signals"}); err != nil {
 			log.Printf("executing signal detail template: %v", err)
 			http.Error(w, "Internal Server Error", 500)
 		}
 	})
 
-	http.HandleFunc("/article/", func(w http.ResponseWriter, r *http.Request) {
-		slug := strings.TrimPrefix(r.URL.Path, "/article/")
+	http.HandleFunc("/articles/", func(w http.ResponseWriter, r *http.Request) {
+		slug := strings.TrimPrefix(r.URL.Path, "/articles/")
 		if slug == "" {
-			http.Redirect(w, r, "/", 302)
+			http.Redirect(w, r, "/articles", 302)
 			return
 		}
 		article, ok := articleMap[slug]
@@ -196,7 +221,7 @@ func main() {
 			return
 		}
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		if err := tmplArticle.Execute(w, ArticleData{Article: article, BaseURL: baseURL}); err != nil {
+		if err := tmplArticle.Execute(w, ArticleData{Article: article, BaseURL: baseURL, DetailPath: "articles"}); err != nil {
 			log.Printf("executing article template: %v", err)
 			http.Error(w, "Internal Server Error", 500)
 		}
