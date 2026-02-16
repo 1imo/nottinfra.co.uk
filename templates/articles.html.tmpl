@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4M8W7JSSZ2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-4M8W7JSSZ2');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary SEO -->
+    <meta name="description" content="Articles from NottInfra on reliability engineering, cost control, and infrastructure operations.">
+    <meta name="keywords" content="NottInfra articles, reliability, incident response, cost optimisation, infrastructure">
+    <meta name="author" content="NottInfra">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ .BaseURL }}/articles">
+    <meta property="og:title" content="NottInfra | Articles">
+    <meta property="og:description" content="Articles from NottInfra on reliability engineering, cost control, and infrastructure operations.">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:site_name" content="NottInfra">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="NottInfra | Articles">
+    <meta name="twitter:description" content="Articles from NottInfra on reliability engineering, cost control, and infrastructure operations.">
+
+    <title>NottInfra | Articles</title>
+    <link rel="canonical" href="{{ .BaseURL }}/articles">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 1.5rem;
+        }
+
+        header,
+        main {
+            max-width: 31.25rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1,
+        h2,
+        a,
+        p {
+            font-size: 0.78125rem;
+            line-height: 1.5625rem;
+            font-family: sans-serif;
+        }
+
+        h1 {
+            margin: 1rem 0 1.5rem;
+        }
+
+        nav {
+            display: flex;
+            column-gap: 0.75rem;
+        }
+
+        hr {
+            margin: 2rem 0;
+        }
+
+        article > p {
+            margin: 1rem 0 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header role="banner">
+        <p>
+            Nottingham-based infrastructure consultancy specialising in reliability engineering,
+            operational risk reduction, cost control, and resilient systems design.
+        </p>
+
+        <h1>NottInfra</h1>
+
+        <nav aria-label="Main navigation">
+            <a href="/">Updates</a>
+            <a href="/articles">Articles</a>
+            <a href="/signals">Signals</a>
+            <a href="mailto:tmhoyland@icloud.com">Contact</a>
+        </nav>
+    </header>
+
+    <main role="main" id="main-content">
+        {{ range .Items }}
+        <article aria-labelledby="article-{{ .Slug }}-title">
+            <hr aria-hidden="true">
+            <h2 id="article-{{ .Slug }}-title">{{ .Title }}</h2>
+            <p>{{ .Description }}</p>
+            <a href="/article/{{ .Slug }}" aria-label="Read more: {{ .Title }}">Read more</a>
+        </article>
+        {{ end }}
+    </main>
+</body>
+</html>
