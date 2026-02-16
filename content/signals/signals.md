@@ -2,7 +2,7 @@
 title: Infrastructure Signals
 slug: signals
 description: Industry and vendor developments that may impact infrastructure reliability, cost exposure, or operational risk posture.
-keywords: cloud pricing changes, vendor breaking changes, infrastructure risk updates, production system advisories
+keywords: cloud pricing changes, vendor breaking changes, infrastructure risk updates, production system advisories, tooling deprecations, security advisories, managed service changes, cloud ecosystem policy, infrastructure reliability alerts, cost exposure alerts, operational risk developments
 created: 2026-02-16
 updated: 2026-02-16
 ---
