@@ -17,7 +17,7 @@ RUN apk add --no-cache ca-certificates
 WORKDIR /app
 
 COPY --from=builder /app/server .
-COPY --from=builder /app/articles ./articles
+COPY --from=builder /app/content ./content
 COPY --from=builder /app/templates ./templates
 
 ENV PORT=8080

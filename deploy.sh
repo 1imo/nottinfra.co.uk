@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # --------------------------------------------------------------------
-# Deployment script for timohoyland.co.uk Docker app
+# Deployment script for nottinfra.co.uk Docker app
 # - Builds linux/amd64 image from local Dockerfile
 # - Ships image to remote server
-# - Runs container on remote host port 80 -> container port 8080
+# - Runs container on remote host port 4005 -> container port 8080
 # --------------------------------------------------------------------
 
 # ===== Configuration =====
@@ -18,13 +18,13 @@ REMOTE_HOST="172.245.43.43"
 REMOTE_TMP_PATH="/tmp"
 
 # Docker image / container names
-IMAGE_NAME="timohoyland-co-uk"
+IMAGE_NAME="nottinfra-co-uk"
 IMAGE_TAG="latest"
 FULL_IMAGE_NAME="${IMAGE_NAME}:${IMAGE_TAG}"
-CONTAINER_NAME="timohoyland-co-uk"
+CONTAINER_NAME="nottinfra-co-uk"
 
 # Host/container ports
-HOST_PORT="4004"
+HOST_PORT="4005"
 CONTAINER_PORT="8080"
 
 TAR_FILE="${IMAGE_NAME}.tar"
@@ -110,4 +110,4 @@ EOF
 echo "Cleaning up local tar file..."
 rm -f "${TAR_FILE}"
 
-echo "Deployment finished! timohoyland.co.uk should be available on host port ${HOST_PORT}."
+echo "Deployment finished! nottinfra.co.uk should be available on host port ${HOST_PORT}."
