@@ -3,6 +3,8 @@ title: Client-Facing IT Services
 slug: client-facing-it-services
 description: IT services for external clients require extra care in availability, security, and communication.
 keywords: client services, SLA, security, IT support, documentation
+created: 2026-02-16
+updated: 2026-02-16
 ---
 
 IT services that serve external clients require extra care: availability, security, and clear communication.

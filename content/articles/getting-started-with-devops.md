@@ -3,6 +3,8 @@ title: Getting Started with DevOps
 slug: getting-started-with-devops
 description: DevOps bridges development and operations, fostering collaboration and automation.
 keywords: devops, automation, collaboration, CI/CD
+created: 2026-02-16
+updated: 2026-02-16
 ---
 
 DevOps bridges development and operations, fostering collaboration and automation. Teams that embrace DevOps typically ship faster and recover quicker.

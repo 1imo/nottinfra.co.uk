@@ -3,6 +3,8 @@ title: Cost Optimization in the Cloud
 slug: cost-optimization-in-the-cloud
 description: Cloud bills can spiral without discipline. Keep costs predictable and aligned with value.
 keywords: cloud, cost optimization, AWS, Azure, reserved instances
+created: 2026-02-16
+updated: 2026-02-16
 ---
 
 Cloud bills can spiral without discipline. A few practices keep costs predictable and aligned with value.

@@ -3,6 +3,8 @@ title: Reliability and Incident Response
 slug: reliability-and-incident-response
 description: Systems fail; how you respond defines your reliability culture. Preparation reduces downtime.
 keywords: incident response, reliability, SRE, post-mortem, runbooks
+created: 2026-02-16
+updated: 2026-02-16
 ---
 
 Systems fail; how you respond defines your reliability culture. Preparation and clear processes reduce stress and downtime.

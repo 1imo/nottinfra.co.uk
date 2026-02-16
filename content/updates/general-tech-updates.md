@@ -3,6 +3,8 @@ title: NottInfra Updates
 slug: general-tech-updates
 description: A rolling feed of general technology and infrastructure updates relevant to NottInfra clients.
 keywords: tech updates, infrastructure updates, cloud updates, reliability
+created: 2026-02-16
+updated: 2026-02-16
 ---
 
 Stay up to date with technology and infrastructure changes that matter for reliability, cost control, and operations.
