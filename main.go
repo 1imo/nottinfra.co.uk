@@ -18,15 +18,6 @@ import (
 
 const baseURL = "https://nottinfra.co.uk"
 
-func findIndexContent(items []Article, slug string) string {
-	for _, a := range items {
-		if a.Slug == slug {
-			return a.Body
-		}
-	}
-	return ""
-}
-
 type Article struct {
 	Title          string
 	Slug           string
@@ -42,15 +33,13 @@ type Article struct {
 }
 
 type IndexData struct {
-	News         []Article
-	BaseURL      string
-	IndexContent string
+	News    []Article
+	BaseURL string
 }
 
 type ListingData struct {
-	Items        []Article
-	BaseURL      string
-	IndexContent string
+	Items   []Article
+	BaseURL string
 }
 
 type ArticleData struct {
@@ -122,7 +111,7 @@ func main() {
 			return
 		}
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		if err := tmplIndex.Execute(w, IndexData{News: newsItems, BaseURL: baseURL, IndexContent: findIndexContent(newsItems, "updates")}); err != nil {
+		if err := tmplIndex.Execute(w, IndexData{News: newsItems, BaseURL: baseURL}); err != nil {
 			log.Printf("executing index template: %v", err)
 			http.Error(w, "Internal Server Error", 500)
 		}
@@ -159,7 +148,7 @@ func main() {
 
 	http.HandleFunc("/articles", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		if err := tmplArticles.Execute(w, ListingData{Items: articles, BaseURL: baseURL, IndexContent: findIndexContent(articles, "articles")}); err != nil {
+		if err := tmplArticles.Execute(w, ListingData{Items: articles, BaseURL: baseURL}); err != nil {
 			log.Printf("executing articles template: %v", err)
 			http.Error(w, "Internal Server Error", 500)
 		}
@@ -167,7 +156,7 @@ func main() {
 
 	http.HandleFunc("/signals", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		if err := tmplSignals.Execute(w, ListingData{Items: signals, BaseURL: baseURL, IndexContent: findIndexContent(signals, "signals")}); err != nil {
+		if err := tmplSignals.Execute(w, ListingData{Items: signals, BaseURL: baseURL}); err != nil {
 			log.Printf("executing signals template: %v", err)
 			http.Error(w, "Internal Server Error", 500)
 		}
@@ -260,6 +249,9 @@ func loadArticles(dir string) ([]Article, error) {
 			return nil, fmt.Errorf("parsing %s: %w", path, err)
 		}
 
+		// Slug is derived from filename (e.g. my-post.md -> my-post)
+		a.Slug = strings.TrimSuffix(e.Name(), ".md")
+
 		// Fallback dates from file mod time if not set in frontmatter
 		if a.Created == "" {
 			a.Created = info.ModTime().Format("2006-01-02")
@@ -312,8 +304,6 @@ func parseArticle(data []byte) (Article, error) {
 			switch key {
 			case "title":
 				a.Title = val
-			case "slug":
-				a.Slug = val
 			case "description":
 				a.Description = val
 			case "keywords":

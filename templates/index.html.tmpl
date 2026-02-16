@@ -105,11 +105,6 @@
     </header>
 
     <main role="main" id="main-content">
-        {{ if .IndexContent }}
-        <div class="index-content">
-            {{ .IndexContent | raw }}
-        </div>
-        {{ end }}
         {{ range .News }}
         <article aria-labelledby="news-{{ .Slug }}-title">
             <hr aria-hidden="true">

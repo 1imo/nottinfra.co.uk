@@ -1,6 +1,5 @@
 ---
 title: NottInfra Updates
-slug: company-updates
 description: Official company updates from NottInfra, including consultancy milestones, service developments, and capability expansions.
 keywords: NottInfra updates, infrastructure consultancy UK, NottInfra announcements, reliability consultancy news, nottingham consultancy, system reliability nottingham, nottingham IT, platform engineering notts, notts IT, service expansion, capability growth, strategic partnerships, risk posture, cost control, delivery reliability
 created: 2026-02-16
