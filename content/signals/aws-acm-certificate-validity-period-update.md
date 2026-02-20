@@ -56,8 +56,8 @@ This revision reinforces that public certificate management is a continuous cont
 
 Sources:
 
-Amazon Web Services – AWS Certificate Manager updates default certificate validity to comply with new guidelines  
-https://aws.amazon.com/about-aws/whats-new/2026/02/aws-certificate-manager-updates-default/
+Amazon Web Services – AWS Certificate Manager updates default certificate validity to comply with new guidelines \
+[https://aws.amazon.com/about-aws/whats-new/2026/02/aws-certificate-manager-updates-default/](https://aws.amazon.com/about-aws/whats-new/2026/02/aws-certificate-manager-updates-default/)
 
-CA / Browser Forum – Ballot SC-062: TLS Certificate Validity Reduction  
-https://cabforum.org/
+CA / Browser Forum – Baseline Requirements: Maximum Validity Periods for Public TLS Certificates \
+[https://cabforum.org/working-groups/server/baseline-requirements/requirements/](https://cabforum.org/working-groups/server/baseline-requirements/requirements/)
