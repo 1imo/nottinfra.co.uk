@@ -4,7 +4,7 @@
 # Deployment script for nottinfra.co.uk Docker app
 # - Builds linux/amd64 image from local Dockerfile
 # - Ships image to remote server
-# - Runs container on remote host port 4005 -> container port 8080
+# - Live: host port 4005 | Staging: host port 4007
 # --------------------------------------------------------------------
 
 # ===== Configuration =====
@@ -17,17 +17,48 @@ REMOTE_USER="root"
 REMOTE_HOST="172.245.43.43"
 REMOTE_TMP_PATH="/tmp"
 
-# Docker image / container names
+# Docker image (same for both)
 IMAGE_NAME="nottinfra-co-uk"
 IMAGE_TAG="latest"
 FULL_IMAGE_NAME="${IMAGE_NAME}:${IMAGE_TAG}"
-CONTAINER_NAME="nottinfra-co-uk"
-
-# Host/container ports
-HOST_PORT="4005"
 CONTAINER_PORT="8080"
 
 TAR_FILE="${IMAGE_NAME}.tar"
+
+# ===== Choose target: live or staging =====
+
+echo ""
+echo "Deploy target:"
+echo "  1) Live"
+echo "  2) Staging"
+echo ""
+read -p "Choose (1 or 2): " choice
+
+case "$choice" in
+    1)
+        DEPLOY_TARGET="live"
+        CONTAINER_NAME="nottinfra-co-uk"
+        HOST_PORT="4005"
+        echo ""
+        read -p "Deploy to LIVE? (y/n): " confirm
+        if [[ "$confirm" != [yY] ]]; then
+            echo "Aborted."
+            exit 0
+        fi
+        ;;
+    2)
+        DEPLOY_TARGET="staging"
+        CONTAINER_NAME="nottinfra-co-uk-staging"
+        HOST_PORT="4007"
+        ;;
+    *)
+        echo "Invalid choice. Aborted."
+        exit 1
+        ;;
+esac
+
+echo "Deploying to: ${DEPLOY_TARGET} (port ${HOST_PORT})"
+echo ""
 
 # ===== Checks =====
 
@@ -110,4 +141,4 @@ EOF
 echo "Cleaning up local tar file..."
 rm -f "${TAR_FILE}"
 
-echo "Deployment finished! nottinfra.co.uk should be available on host port ${HOST_PORT}."
+echo "Deployment finished! ${DEPLOY_TARGET} should be available on host port ${HOST_PORT}."
