@@ -2,8 +2,8 @@
 title: Public PKI Lifespan Contraction and Control Plane Dependency
 description: Ongoing reduction in public TLS certificate validity increases renewal frequency, compresses monitoring tolerance, and structurally embeds automation dependency within infrastructure reliability posture.
 keywords: NottInfra, Nottingham Infrastructure, Nottingham IT, Nottingham Platform, Nottingham Security, East Midlands Infrastructure, TLS, PKI, certificate lifecycle, CA Browser Forum, reliability engineering, governance, automation, operational risk, infrastructure resilience, ACM, cloud governance, control plane
-created: 2026-02-25
-updated: 2026-02-25
+created: 2026-02-23
+updated: 2026-02-23
 ---
 
 Category: Governance
@@ -123,7 +123,7 @@ Estates designed for deterministic automation will absorb this contraction with 
 Certificate lifecycle management is now a continuous control-plane function. Infrastructure maturity is measured by how invisibly and reliably that function operates.
 
 Sources:  
-CA / Browser Forum – Baseline Requirements for the Issuance and Management of Publicly-Trusted TLS Certificates \
+CA / Browser Forum – Baseline Requirements for the Issuance and Management of Publicly-Trusted TLS Certificates \./de   
 [https://cabforum.org/working-groups/server/baseline-requirements/requirements/](https://cabforum.org/working-groups/server/baseline-requirements/requirements/)
 
 NottInfra Signal – AWS – ACM: Public Certificate Validity Period Change \
