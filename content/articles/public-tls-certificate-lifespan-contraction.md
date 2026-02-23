@@ -1,5 +1,5 @@
 ---
-title: Public TLS Certificate Lifespan Contraction and Automation Dependency Risk
+title: Public PKI Lifespan Contraction and Control Plane Dependency
 description: Ongoing reduction in public TLS certificate validity increases renewal frequency, compresses monitoring tolerance, and structurally embeds automation dependency within infrastructure reliability posture.
 keywords: NottInfra, Nottingham Infrastructure, Nottingham IT, Nottingham Platform, Nottingham Security, East Midlands Infrastructure, TLS, PKI, certificate lifecycle, CA Browser Forum, reliability engineering, governance, automation, operational risk, infrastructure resilience, ACM, cloud governance, control plane
 created: 2026-02-25
@@ -16,9 +16,7 @@ Context:
 
 The CA / B Forum defines baseline requirements for publicly trusted TLS certificates. Over the past decade, maximum certificate validity has reduced in successive stages, moving from multi-year issuance toward sub-annual lifespans. The most recent mandate requires publicly trusted certificates issued after March 2026 to remain under 200 days in validity.
 
-Cloud platforms have aligned issuance policies accordingly through services such as AWS Certificate Manager. Similar enforcement patterns exist across other major providers and publicly trusted certificate authorities.
-
-This progression is not vendor-specific. It represents industry-level contraction of operational tolerance in public key infrastructure. The direction of travel is consistent: shorter validity, increased renewal cadence, greater automation reliance.
+Major cloud platforms have aligned issuance policies accordingly through their managed certificate services. This progression is not vendor-specific. It represents industry-level contraction of operational tolerance in public key infrastructure. The direction of travel is consistent: shorter validity, increased renewal cadence, greater automation reliance.
 
 Structural Analysis:
 
@@ -125,8 +123,8 @@ Estates designed for deterministic automation will absorb this contraction with 
 Certificate lifecycle management is now a continuous control-plane function. Infrastructure maturity is measured by how invisibly and reliably that function operates.
 
 Sources:  
-CA / Browser Forum – Baseline Requirements for the Issuance and Management of Publicly-Trusted TLS Certificates\  
+CA / Browser Forum – Baseline Requirements for the Issuance and Management of Publicly-Trusted TLS Certificates \
 [https://cabforum.org/working-groups/server/baseline-requirements/requirements/](https://cabforum.org/working-groups/server/baseline-requirements/requirements/)
 
-NottInfra Signal – AWS – ACM: Public Certificate Validity Period Change\
+NottInfra Signal – AWS – ACM: Public Certificate Validity Period Change \
 [https://nottinfra.co.uk/signals/aws-acm-public-certificate-validity-period-change](https://nottinfra.co.uk/signals/aws-acm-public-certificate-validity-period-change)
