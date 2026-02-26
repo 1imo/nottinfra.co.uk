@@ -87,20 +87,25 @@ func main() {
 	}
 
 	htmlFuncs := template.FuncMap{"raw": func(s string) template.HTML { return template.HTML(s) }}
+	partials := []string{
+		"templates/partials/layout_styles.html.tmpl",
+		"templates/partials/header.html.tmpl",
+		"templates/partials/footer.html.tmpl",
+	}
 	var tmplIndex, tmplArticles, tmplSignals, tmplArticle *template.Template
-	tmplIndex, err = template.New("index.html.tmpl").Funcs(htmlFuncs).ParseFiles("templates/index.html.tmpl")
+	tmplIndex, err = template.New("index.html.tmpl").Funcs(htmlFuncs).ParseFiles(append([]string{"templates/index.html.tmpl"}, partials...)...)
 	if err != nil {
 		log.Fatalf("parsing index template: %v", err)
 	}
-	tmplArticles, err = template.New("articles.html.tmpl").Funcs(htmlFuncs).ParseFiles("templates/articles.html.tmpl")
+	tmplArticles, err = template.New("articles.html.tmpl").Funcs(htmlFuncs).ParseFiles(append([]string{"templates/articles.html.tmpl"}, partials...)...)
 	if err != nil {
 		log.Fatalf("parsing articles template: %v", err)
 	}
-	tmplSignals, err = template.New("signals.html.tmpl").Funcs(htmlFuncs).ParseFiles("templates/signals.html.tmpl")
+	tmplSignals, err = template.New("signals.html.tmpl").Funcs(htmlFuncs).ParseFiles(append([]string{"templates/signals.html.tmpl"}, partials...)...)
 	if err != nil {
 		log.Fatalf("parsing signals template: %v", err)
 	}
-	tmplArticle, err = template.New("article.html.tmpl").Funcs(htmlFuncs).ParseFiles("templates/article.html.tmpl")
+	tmplArticle, err = template.New("article.html.tmpl").Funcs(htmlFuncs).ParseFiles(append([]string{"templates/article.html.tmpl"}, partials...)...)
 	if err != nil {
 		log.Fatalf("parsing article template: %v", err)
 	}

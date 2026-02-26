@@ -36,73 +36,11 @@
     <title>NottInfra | Infrastructure Consultancy | Reliability & Risk</title>
     <link rel="canonical" href="{{ .BaseURL }}/">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 1.5rem;
-        }
-
-        header,
-        main {
-            max-width: 31.25rem;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        h1,
-        h2,
-        a,
-        p {
-            font-size: 0.78125rem;
-            line-height: 1.5625rem;
-            font-family: sans-serif;
-        }
-
-        h1 {
-            margin: 1rem 0 1.5rem;
-        }
-
-        nav {
-            display: flex;
-            column-gap: 0.75rem;
-        }
-
-        hr {
-            margin: 2rem 0;
-        }
-
-        article > p,
-        .index-content p {
-            margin: 1rem 0 1.5rem;
-        }
-
-        .index-content {
-            margin-bottom: 2rem;
-        }
-    </style>
+    {{ template "layout-styles" . }}
 </head>
 
 <body>
-    <header role="banner">
-        <p>
-            Nottingham-based infrastructure consultancy specialising in reliability engineering,
-            operational risk reduction, cost control, and resilient systems design.
-        </p>
-
-        <h1>NottInfra</h1>
-
-        <nav aria-label="Main navigation">
-            <a href="/">Updates</a>
-            <a href="/articles">Articles</a>
-            <a href="/signals">Signals</a>
-            <a href="https://booking.nottinfra.co.uk">Contact</a>
-        </nav>
-    </header>
+    {{ template "header" . }}
 
     <main role="main" id="main-content">
         {{ range .News }}
@@ -114,5 +52,7 @@
         </article>
         {{ end }}
     </main>
+
+    {{ template "footer" . }}
 </body>
 </html>
