@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4M8W7JSSZ2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-4M8W7JSSZ2');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary SEO -->
+    <meta name="description" content="{{ .Description }}">
+    <meta name="keywords" content="{{ .Keywords }}, infrastructure consultancy, reliability engineering, operational risk, cost optimisation, platform engineering">
+    <meta name="author" content="NottInfra">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ .BaseURL }}/{{ .DetailPath }}/{{ .Slug }}">
+    <meta property="og:title" content="{{ .Title }} | NottInfra">
+    <meta property="og:description" content="{{ .Description }}">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:site_name" content="NottInfra">
+    <meta property="article:author" content="NottInfra">
+    <meta property="article:published_time" content="{{ .Created }}">
+    <meta property="article:modified_time" content="{{ .Updated }}">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{{ .Title }} | NottInfra">
+    <meta name="twitter:description" content="{{ .Description }}">
+
+    <title>{{ .Title }} | NottInfra</title>
+    <link rel="canonical" href="{{ .BaseURL }}/{{ .DetailPath }}/{{ .Slug }}">
+
+    {{ template "layout-styles" . }}
+    <style>
+        h2 {
+            margin: 1.5rem 0 0rem;
+        }
+
+        h3 {
+            margin: 1rem 0 0.5rem;
+        }
+
+        [itemprop="articleBody"] > p,
+        [itemprop="articleBody"] ul,
+        [itemprop="articleBody"] ol {
+            margin: 1rem 0 1.5rem;
+        }
+
+        [itemprop="articleBody"] ul,
+        [itemprop="articleBody"] ol {
+            padding-left: 1.5rem;
+        }
+
+        .article-date {
+            margin-top: 0.25rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    {{ template "header" . }}
+
+    <main role="main" id="main-content">
+        <article aria-labelledby="article-title" itemscope itemtype="https://schema.org/Article">
+            <hr aria-hidden="true">
+
+            <h2 id="article-title" itemprop="headline">
+                {{ .Title }}
+            </h2>
+
+            <p class="article-date">
+                <time datetime="{{ .Updated }}" itemprop="dateModified">{{ .DisplayUpdated }}</time>
+            </p>
+
+            <meta itemprop="datePublished" content="{{ .Created }}">
+            <meta itemprop="dateModified" content="{{ .Updated }}">
+
+            <div itemprop="articleBody">
+                {{ .Body | raw }}
+            </div>
+
+            <p>
+                <a href="/" aria-label="Back to homepage">Back to home</a>
+            </p>
+        </article>
+    </main>
+
+    {{ template "footer" . }}
+</body>
+</html>

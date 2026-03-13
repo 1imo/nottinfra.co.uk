@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4M8W7JSSZ2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-4M8W7JSSZ2');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary SEO -->
+    <meta name="description" content="NottInfra provides infrastructure consultancy focused on reliability, cost control, operational risk reduction, and resilient systems design.">
+    <meta name="keywords" content="Infrastructure consultancy, DevOps consultancy, cloud reliability, infrastructure risk, cost optimisation, platform engineering, NottInfra">
+    <meta name="author" content="NottInfra, NottInfra Limited">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ .BaseURL }}/">
+    <meta property="og:title" content="NottInfra | Infrastructure Consultancy | Reliability & Risk">
+    <meta property="og:description" content="We design and stabilise infrastructure with a focus on risk reduction, reliability, and measurable cost control.">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:site_name" content="NottInfra">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="NottInfra | Infrastructure Consultancy">
+    <meta name="twitter:description" content="Infrastructure consultancy focused on reliability, operational risk, and cost discipline.">
+
+    <title>NottInfra | Infrastructure Consultancy | Reliability & Risk</title>
+    <link rel="canonical" href="{{ .BaseURL }}/">
+
+    {{ template "layout-styles" . }}
+</head>
+
+<body>
+    {{ template "header" . }}
+
+    <main role="main" id="main-content">
+        {{ range .News }}
+        <article aria-labelledby="news-{{ .Slug }}-title">
+            <hr aria-hidden="true">
+            <h2 id="news-{{ .Slug }}-title">{{ .Title }}</h2>
+            <p>{{ .Description }}</p>
+            <a href="/updates/{{ .Slug }}" aria-label="Read more: {{ .Title }}">Read more</a>
+        </article>
+        {{ end }}
+    </main>
+
+    {{ template "footer" . }}
+</body>
+</html>

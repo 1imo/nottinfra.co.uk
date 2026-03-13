@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4M8W7JSSZ2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-4M8W7JSSZ2');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary SEO -->
+    <meta name="description" content="Signals from the wider tech ecosystem that may impact reliability, cost, or risk.">
+    <meta name="keywords" content="tech signals, industry trends, reliability, cost, risk">
+    <meta name="author" content="NottInfra">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ .BaseURL }}/signals">
+    <meta property="og:title" content="NottInfra | Signals">
+    <meta property="og:description" content="Signals from the wider tech ecosystem that may impact reliability, cost, or risk.">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:site_name" content="NottInfra">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="NottInfra | Signals">
+    <meta name="twitter:description" content="Signals from the wider tech ecosystem that may impact reliability, cost, or risk.">
+
+    <title>NottInfra | Signals</title>
+    <link rel="canonical" href="{{ .BaseURL }}/signals">
+
+    {{ template "layout-styles" . }}
+</head>
+
+<body>
+    {{ template "header" . }}
+
+    <main role="main" id="main-content">
+        {{ range .Items }}
+        <article aria-labelledby="signal-{{ .Slug }}-title">
+            <hr aria-hidden="true">
+            <h2 id="signal-{{ .Slug }}-title">{{ .Title }}</h2>
+            <p>{{ .Description }}</p>
+            <a href="/signals/{{ .Slug }}" aria-label="Read more: {{ .Title }}">Read more</a>
+        </article>
+        {{ end }}
+    </main>
+
+    {{ template "footer" . }}
+</body>
+</html>
